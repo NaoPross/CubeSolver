@@ -11,12 +11,13 @@ pygame = "^2.4.0"
 pyopengl = "^3.1.7"
 numpy = "^1.25.0"
 scikit-image = "^0.21.0"
-opencv-python = "^4.7.0.72"
 pyopengl-accelerate = "^3.1.7"
 ipython = "^8.14.0"
 numpy-quaternion = "^2022.4.3"
 matplotlib = "^3.7.1"
 pyrr = "^0.10.3"
+opencv-python = "^4.7.0.72"
+freetype-py = "^2.4.0"
 
 
 [tool.poetry.group.dev.dependencies]

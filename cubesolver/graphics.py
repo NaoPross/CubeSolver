@@ -9,6 +9,7 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 
 from .clifford import Vec3
+from .webcaim import Webcam
 
 
 class Face(Vec3):
@@ -214,6 +215,19 @@ class RubikCube:
 	def render(self):
 		for cubie in self.cubies:
 			cubie.render()
+
+
+class WebcamCVFrameBuffer:
+	def __init__(self, process_fn):
+		self.process = process_fn
+		self.camera = Webcam(0, downscale=3)
+		self.camera.calibrate((6,5))
+
+	def update(self):
+		pass
+
+	def render(self):
+		pass
 
 
 def loop(update, render):

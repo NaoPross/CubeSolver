@@ -22,6 +22,7 @@ class Webcam:
     def __init__(self, port=0, settings=None, downscale=1):
         super(Webcam, self).__init__()
         self.matrix = None
+        self.inv_matrix = None
         self.opened = False
 
         self.port = port
@@ -80,16 +81,15 @@ class Webcam:
         objpoints = [] # 3d point in real world space
         imgpoints = [] # 2d points in image plane.
 
-        done = False
+        print(f"looking for {chessboard} chessboard")
 
         self.open()
-        # TODO: add max number of attempts
-        while not done:
+        while True:
             ret, img = self.get_frame()
 
             gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
             cv.imshow('img', gray)
-            cv.waitKey(1000)
+            cv.waitKey(100)
 
             # Find the chess board corners
             ret, corners = cv.findChessboardCorners(gray, chessboard, None)
@@ -105,10 +105,8 @@ class Webcam:
                 cv.imshow('img', img)
                 cv.waitKey(500)
 
-                done = True
+                break
 
-            else:
-                print("failed to find chessboard")
         self.close()
 
         ret, mtx, dist, rvecs, tvecs = cv.calibrateCamera(objpoints, imgpoints, gray.shape[::-1], None, None)
@@ -118,6 +116,7 @@ class Webcam:
 
         w, h = img.shape[:2]
         self.matrix, roi = cv.getOptimalNewCameraMatrix(mtx, dist, (w,h), 1, (w,h))
+        self.inv_matrix = np.linalg.pinv(self.matrix)
         return True
 
 
